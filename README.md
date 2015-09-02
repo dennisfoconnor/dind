@@ -2,11 +2,9 @@
 
 This recipe lets you run Docker within Docker.
 
+This fork requires Docker v1.8+.
+For previous versions of Docker see [the original DIND](https://github.com/jpetazzo/dind)
 ![Inception's Spinning Top](spintop.jpg)
-
-There is only one requirement: your Docker version should support the
-`--privileged` flag.
-
 
 ## Quickstart
 
@@ -44,45 +42,11 @@ docker daemon with any extra options:
 ```bash
 docker run --privileged -d -e DOCKER_DAEMON_ARGS="-D" dind
 ```
-
-## It didn't work!
-
-If you get a weird permission message, check the output of `dmesg`: it could
-be caused by AppArmor. In that case, try again, adding an extra flag to
-kick AppArmor out of the equation:
-
-```bash
-docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -t -i dind
-```
-
-If you get the warning:
-
-````
-WARNING: the 'devices' cgroup should be in its own hierarchy.
-````
-
-When starting up dind, you can get around this by shutting down docker and running:
-
-````
-# /etc/init.d/lxc stop
-# umount /sys/fs/cgroup/
-# mount -t cgroup devices 1 /sys/fs/cgroup
-````
-
-If the unmount fails, you can find out the proper mount-point with:
-
-````
-$ cat /proc/mounts | grep cgroup
-````
-
 ## How It Works
 
 The main trick is to have the `--privileged` flag. Then, there are a few things
 to care about:
 
-- cgroups pseudo-filesystems have to be mounted, and they have to be mounted
-  with the same hierarchies than the parent environment; this is done by a
-  wrapper script, which is setup to run by default;
 - `/var/lib/docker` cannot be on AUFS, so we make it a volume.
 
 That's it.
