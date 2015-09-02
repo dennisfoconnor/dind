@@ -1,5 +1,4 @@
 FROM ubuntu:14.04
-MAINTAINER jerome.petazzoni@docker.com
 
 # Let's start with some basic stuff.
 RUN apt-get update -qq && apt-get install -qqy \
