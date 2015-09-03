@@ -4,7 +4,7 @@ This recipe lets you run Docker within Docker.
 
 This fork requires Docker v1.8+.
 For previous versions of Docker see [the original DIND](https://github.com/jpetazzo/dind)
-![Inception's Spinning Top](spintop.jpg)
+![Inception's Spinning Top](https://raw.githubusercontent.com/dennisfoconnor/dind/master/spintop.jpg)
 
 ## Quickstart
 
